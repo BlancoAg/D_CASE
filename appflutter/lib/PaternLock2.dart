@@ -55,48 +55,50 @@ class _PatternLockWidgetState extends State<PatternLockWidget> {
             var theCode = input.join("");
 
             //Resultasdo de pin, si es correcta el pin ingresado, setea en true en la db
-            bool result = await checkPatternInDatabase(theCode, widget.character.id);
+            bool result =
+                await checkPatternInDatabase(theCode, widget.character.id);
 
             if (result) {
               final newChar = await getCharacter(widget.character.id);
               //Navigator.of(context).pop();
               return showDialog(
-                  context: context,
-                  child: AlertDialog(
-                    backgroundColor: Colors.green.shade700,
-                    title: Text("¡CORRECTO!"),
-                    actions: <Widget>[
-                      MaterialButton(
-                        color: Colors.green,
-                        elevation: 5.0,
-                        child: Text('Continuar...'),
-                        onPressed: () async {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => HomeNuevoWidget(
-                                    characterSelected: newChar, indexBody: 1,
-                                    //// characterSelected: char,
-                                  )));
-                        },
-                      )
-                    ],
-                  ));
+                  builder: (context) => AlertDialog(
+                        backgroundColor: Colors.green.shade700,
+                        title: Text("¡CORRECTO!"),
+                        actions: <Widget>[
+                          MaterialButton(
+                            color: Colors.green,
+                            elevation: 5.0,
+                            child: Text('Continuar...'),
+                            onPressed: () async {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => HomeNuevoWidget(
+                                        characterSelected: newChar,
+                                        indexBody: 1,
+                                        //// characterSelected: char,
+                                      )));
+                            },
+                          )
+                        ],
+                      ),
+                  context: context);
             } else {
               return showDialog(
-                  context: context,
-                  child: AlertDialog(
-                    backgroundColor: Colors.red.shade600,
-                    title: Text("¡INCORRECTO!"),
-                    actions: <Widget>[
-                      MaterialButton(
-                        color: Colors.red,
-                        elevation: 5.0,
-                        child: Text('Intentá otra vez...'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ],
-                  ));
+                  builder: (context) => AlertDialog(
+                        backgroundColor: Colors.red.shade600,
+                        title: Text("¡INCORRECTO!"),
+                        actions: <Widget>[
+                          MaterialButton(
+                            color: Colors.red,
+                            elevation: 5.0,
+                            child: Text('Intentá otra vez...'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      ),
+                  context: context);
             }
           },
         ),

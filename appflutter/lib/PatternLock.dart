@@ -54,10 +54,12 @@ class _MyPatternLockState extends State<MyPatternLock> {
           Container(
             margin: EdgeInsets.all(4),
             decoration: BoxDecoration(
-                color: Colors.purple.shade900, borderRadius: BorderRadius.circular(12)),
+                color: Colors.purple.shade900,
+                borderRadius: BorderRadius.circular(12)),
             child: GestureDetector(
               child: CustomPaint(
-                painter: _LockScreenPainter(codes: codes, offset: offset, onSelect: _onSelect),
+                painter: _LockScreenPainter(
+                    codes: codes, offset: offset, onSelect: _onSelect),
                 size: _sizePainter,
               ),
               onPanStart: _onPanStart,
@@ -75,40 +77,41 @@ class _MyPatternLockState extends State<MyPatternLock> {
             onPressed: () async {
               var theCode = codes.join("");
 
-              bool result = await checkPatternInDatabase(theCode, widget.characterName);
+              bool result =
+                  await checkPatternInDatabase(theCode, widget.characterName);
 
               if (result) {
                 //Navigator.of(context).pop();
                 return showDialog(
-                    context: context,
-                    child: AlertDialog(
-                      title: Text("¡CORRECTO!"),
-                      actions: <Widget>[
-                        MaterialButton(
-                          elevation: 5.0,
-                          child: Text('Continuar...'),
-                          onPressed: () {
-                            //Navigator.of(context)
-                            //.push(MaterialPageRoute(builder: (context) => Gameplay()));
-                          },
-                        )
-                      ],
-                    ));
+                    builder: (context) => AlertDialog(
+                          title: Text("¡CORRECTO!"),
+                          actions: <Widget>[
+                            MaterialButton(
+                              elevation: 5.0,
+                              child: Text('Continuar...'),
+                              onPressed: () {
+                                //Navigator.of(context)
+                                //.push(MaterialPageRoute(builder: (context) => Gameplay()));
+                              },
+                            )
+                          ],
+                        ),
+                    context: context);
               } else {
                 return showDialog(
-                    context: context,
-                    child: AlertDialog(
-                      title: Text("¡INCORRECTO!"),
-                      actions: <Widget>[
-                        MaterialButton(
-                          elevation: 5.0,
-                          child: Text('Intentá otra vez...'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ],
-                    ));
+                    builder: (context) => AlertDialog(
+                          title: Text("¡INCORRECTO!"),
+                          actions: <Widget>[
+                            MaterialButton(
+                              elevation: 5.0,
+                              child: Text('Intentá otra vez...'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        ),
+                    context: context);
               }
             },
           )
@@ -119,7 +122,8 @@ class _MyPatternLockState extends State<MyPatternLock> {
 
   _onPanStart(DragStartDetails event) => _clearCodes();
 
-  _onPanUpdate(DragUpdateDetails event) => setState(() => offset = event.localPosition);
+  _onPanUpdate(DragUpdateDetails event) =>
+      setState(() => offset = event.localPosition);
 
   _onPanEnd(DragEndDetails event) => setState(() => offset = null);
 
@@ -191,7 +195,8 @@ class _LockScreenPainter extends CustomPainter {
     return Path()..addOval(_rect);
   }
 
-  void _drawCircle(Canvas canvas, Offset offset, double radius, Color color, [bool isDot = false]) {
+  void _drawCircle(Canvas canvas, Offset offset, double radius, Color color,
+      [bool isDot = false]) {
     var _path = _getCirclePath(offset, radius);
     var _painter = this._painter
       ..color = color
